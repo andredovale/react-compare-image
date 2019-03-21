@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -8,6 +8,26 @@ import ReactCompareImage from '../src/ReactCompareImage';
 
 const leftImageSrc = '/cat1.jpg';
 const rightImageSrc = '/cat2.jpg';
+
+const Animated = () => {
+  const [position, setPosition] = useState(0.5);
+
+  useEffect(() => {
+    setTimeout(() => setPosition(0.8), 500);
+    setTimeout(() => setPosition(0.2), 1000);
+    setTimeout(() => setPosition(0.5), 1500);
+  }, []);
+
+  return (
+    <div style={{ maxWidth: '100%', padding: '30px 0', background: 'gray' }}>
+      <ReactCompareImage
+        leftImage={leftImageSrc}
+        rightImage={rightImageSrc}
+        sliderPositionPercentage={position}
+      />
+    </div>
+  );
+};
 
 storiesOf('ReactCompareImages', module)
   .add('200px', () => (
@@ -30,6 +50,7 @@ storiesOf('ReactCompareImages', module)
       <ReactCompareImage leftImage={leftImageSrc} rightImage={rightImageSrc} />
     </div>
   ))
+  .add('animated', () => <Animated />)
   .add('all sizes', () => (
     <div>
       <div style={{ maxWidth: '200px', padding: '30px 0', background: 'gray' }}>
